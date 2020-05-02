@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Details";
+}
+
+@{
+    if(@ViewBag.Item != null)
+    {
+        <div class="jumbotron bg-transparent border">
+            <a href="/cart">Back to Cart</a>
+            <hr>
+            <h3 class="mb-4 ml-3">Item ID#@ViewBag.Item.ItemId</h3>
+            <div class="media">
+                <img src="/images/@ViewBag.Item.Img" class="ml-5 mr-3 detail-img" alt="Product">
+                <div class="media-body">
+                    <h5 class="mt-0">@ViewBag.Item.ItemName</h5>
+                    <p>Price: $@ViewBag.Item.Price</p>
+                    <form action="/update" method="post">
+                        <p>
+                            Amount
+                            <input type="hidden" value="@ViewBag.Item.ItemId" name="itemId">
+                            <input type="number" value="@ViewBag.Item.Amount" name="NewAmount" class="amount-input" min="1" max="5">
+                            <a href="/delete/@ViewBag.Item.ItemId" class="btn btn-sm btn-danger">Delete</a>
+                        </p>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+}

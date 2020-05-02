@@ -1,0 +1,40 @@
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div>
+    
+        @{
+            foreach(var order in @ViewBag.AllOrders)
+            {
+                <div class="jumbotron bg-transparent border">
+                    <h1>Order ID: @order.OrderId</h1>
+                    @if(order.Complete == true)
+                    {
+                        <p class="text-success">Status: Complete </p>
+                    }
+                    else
+                    {
+                        <a class="btn btn-sm btn-outline-primary mb-2" href="/cart">Go to Cart</a>
+                       <p class="text-danger">Status: Items Not Checked Out </p> 
+                    }
+                    <h3>Items</h3>
+                    <hr>
+                    @foreach (var item in order.CreatedItems)
+                    {
+                        <div class="media">
+                            <img src="/images/@item.Img" class="ml-5 mr-3 cart-img" alt="Product">
+                            <div class="media-body">
+                                <h5 class="mt-0">@item.ItemName</h5>
+                                <p>Price: $@item.Price</p>
+                                <p>
+                                    Amount: @item.Amount 
+                                </p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+    
+</div>

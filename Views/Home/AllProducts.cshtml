@@ -1,0 +1,136 @@
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "Fishazon | Products";
+}
+
+<div class="jumbotron allproducts-title text-white">
+    <h2 class="mt-4">Fishing Tackle</h2>
+    <h3 class="mb-4">Don't miss out on great supplies for the best prices!</h3>
+</div>
+<div class="dropdown">
+    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Category
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item disabled" href="#">All Products</a>
+        <a class="dropdown-item" href="/rods">Rods</a>
+        <a class="dropdown-item" href="/reels">Reels</a>
+        <a class="dropdown-item" href="#">Line</a>
+    </div>
+</div>
+<h2 class="mt-3">Fishing Rods</h2>
+<div class="row mt-3">
+    @{
+        foreach(var rod in @ViewBag.AllRods)
+        {
+            <div class="col-sm-3">
+                <div class="card">
+                    <img class="card-img-top mt-3" src="/images/@rod.Img" alt="Rod">
+                    <div class="card-body">
+                        <p class="card-text">@rod.Name</p>
+                        <p class="card-text font-weight-bold">$@rod.Price</p>
+                        @if(Context.Session.GetInt32("id") == null)
+                        {
+                            <a href="/itemregistration">
+                                <button class="btn btn-outline-dark" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">
+                                    Add to Cart
+                                </button>
+                            </a>
+                        }
+                        else 
+                        {
+                            @if(@ViewBag.ProductNames.Contains(rod.Name))
+                            {
+                                <button class="btn btn-light" disabled>Item Already In Cart</button>
+                            }
+                            else 
+                            {
+                                <a href="/addcart/@rod.ProductId">
+                                    <button class="btn btn-dark">Add to Cart</button>
+                                </a> 
+                            }
+                            
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+<h2 class="mt-3">Fishing Reels</h2>
+<div class="row mt-3">
+    @{
+        foreach(var reel in @ViewBag.AllReels)
+        {
+            <div class="col-sm-3">
+                <div class="card">
+                    <img class="card-img-top mt-3" src="/images/@reel.Img" alt="Reel">
+                    <div class="card-body">
+                        <p class="card-text">@reel.Name</p>
+                        <p class="card-text font-weight-bold">$@reel.Price</p>
+                        @if(Context.Session.GetInt32("id") == null)
+                        {
+                            <a href="/itemregistration">
+                                <button class="btn btn-outline-dark" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">
+                                    Add to Cart
+                                </button>
+                            </a>
+                        }
+                        else 
+                        {
+                            @if(@ViewBag.ProductNames.Contains(reel.Name))
+                            {
+                                <button class="btn btn-light" disabled>Item Already In Cart</button>
+                            }
+                            else 
+                            {
+                                <a href="/addcart/@reel.ProductId">
+                                <button class="btn btn-dark">Add to Cart</button>
+                                </a> 
+                            }   
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+<h2 class="mt-3">Fishing Line</h2>
+<div class="row mt-3">
+    @{
+        foreach(var line in @ViewBag.AllLines)
+        {
+            <div class="col-sm-3">
+                <div class="card">
+                    <img class="card-img-top mt-2 product-img" src="/images/@line.Img" alt="Line">
+                    <div class="card-body">
+                        <p class="card-text">@line.Name</p>
+                        <p class="card-text font-weight-bold">$@line.Price</p>
+                        @if(Context.Session.GetInt32("id") == null)
+                        {
+                            <a href="/itemregistration">
+                                <button class="btn btn-outline-dark" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">
+                                    Add to Cart
+                                </button>
+                            </a>
+                        }
+                        else 
+                        {
+                            @if(@ViewBag.ProductNames.Contains(line.Name))
+                            {
+                                <button class="btn btn-light" disabled>Item Already In Cart</button>
+                            }
+                            else 
+                            {
+                                <a href="/addcart/@line.ProductId">
+                                    <button class="btn btn-dark">Add to Cart</button>
+                                </a> 
+                            }   
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    
+</div>

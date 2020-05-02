@@ -1,0 +1,59 @@
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "Lines";
+}
+
+<div class="jumbotron line-title text-white">
+    <h2 class="mt-4">Fishing Lines</h2>
+    <h3 class="mb-4">We got the best fishing line just for you!</h3>
+</div>
+<div class="dropdown">
+    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Category
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="/allproducts">All Products</a>
+        <a class="dropdown-item" href="/rods">Rods</a>
+        <a class="dropdown-item" href="/reels">Reels</a>
+        <a class="dropdown-item disabled" href="#">Line</a>
+    </div>
+</div>
+
+<div class="row mt-3">
+    @{
+        foreach(var line in @ViewBag.AllLines)
+        {
+            <div class="col-sm-3">
+                <div class="card">
+                    <img class="card-img-top mt-2 product-img" src="/images/@line.Img" alt="Line">
+                    <div class="card-body">
+                        <p class="card-text">@line.Name</p>
+                        <p class="card-text font-weight-bold">$@line.Price</p>
+                        @if(Context.Session.GetInt32("id") == null)
+                        {
+                            <a href="/itemregistration">
+                                <button class="btn btn-outline-dark" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">
+                                    Add to Cart
+                                </button>
+                            </a>
+                        }
+                        else 
+                        {
+                            @if(@ViewBag.ProductNames.Contains(line.Name))
+                            {
+                                <button class="btn btn-light" disabled>Item Already In Cart</button>
+                            }
+                            else 
+                            {
+                                <a href="/addcart/@line.ProductId">
+                                    <button class="btn btn-dark">Add to Cart</button>
+                                </a> 
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    
+</div>
