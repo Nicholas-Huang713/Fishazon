@@ -120,7 +120,7 @@ namespace Fishazon.Controllers
                 {
                     productNames.Add(item.ItemName);
                 }
-                ViewBag.Productnames = productNames;
+                ViewBag.ProductNames = productNames;
                 ViewBag.AllRods = AllRods;
                 ViewBag.AllReels = AllReels;
                 ViewBag.AllLines = AllLines;
@@ -128,7 +128,7 @@ namespace Fishazon.Controllers
             }
             else 
             {
-                ViewBag.Productnames = productNames;
+                ViewBag.ProductNames = productNames;
                 ViewBag.AllRods = AllRods;
                 ViewBag.AllReels = AllReels;
                 ViewBag.AllLines = AllLines;
@@ -151,7 +151,7 @@ namespace Fishazon.Controllers
                 {
                     productNames.Add(item.ItemName);
                 }
-                ViewBag.Productnames = productNames;
+                ViewBag.ProductNames = productNames;
                 ViewBag.AllRods = AllRods;
                 return View("rods");
             }
@@ -176,7 +176,7 @@ namespace Fishazon.Controllers
                 {
                     productNames.Add(item.ItemName);
                 }
-                ViewBag.Productnames = productNames;
+                ViewBag.ProductNames = productNames;
                 ViewBag.AllReels = AllReels;
                 return View("reels");
             }
@@ -201,7 +201,7 @@ namespace Fishazon.Controllers
                 {
                     productNames.Add(item.ItemName);
                 }
-                ViewBag.Productnames = productNames;
+                ViewBag.ProductNames = productNames;
                 ViewBag.AllLines = AllLines;
                 return View("Lines");
             }
@@ -267,7 +267,7 @@ namespace Fishazon.Controllers
                                 .Include(u => u.CreatedOrders)
                                 .FirstOrDefault(u => u.UserId ==  HttpContext.Session.GetInt32("id"));
             Product currentProduct = dbContext.Products.FirstOrDefault(p => p.ProductId == productId);
-            Order currentOrder = dbContext.Orders.FirstOrDefault(o => o.Complete == false);
+            Order currentOrder = dbContext.Orders.FirstOrDefault(o => o.Complete == false && o.UserId == currentUser.UserId);
             if(currentOrder == null){
                 Order newOrder = new Order
                 {
@@ -348,7 +348,7 @@ namespace Fishazon.Controllers
         public IActionResult PlaceOrder()
         {
             User CurrentUser = dbContext.Users.FirstOrDefault(u => u.UserId == HttpContext.Session.GetInt32("id"));
-            Order NewOrder = dbContext.Orders.SingleOrDefault(o => o.Complete == false);
+            Order NewOrder = dbContext.Orders.SingleOrDefault(o => o.Complete == false && o.UserId == CurrentUser.UserId);
             NewOrder.Complete = true;
             dbContext.SaveChanges();
             ViewBag.UserName = CurrentUser.FirstName;
@@ -365,9 +365,17 @@ namespace Fishazon.Controllers
             List<Order> AllOrders = CurrentUser.CreatedOrders
                                     .OrderByDescending(o => o.CreatedAt)
                                     .ToList();
-            ViewBag.AllOrders = AllOrders;
-            ViewBag.CurrentUser = CurrentUser;
-            return View("Orders");
+            if(AllOrders.Count == 0)
+            {
+                ViewBag.EmptyMessage = "Head over to our Products page to start shopping";
+                return View("Orders");
+            }
+            else 
+            {
+                ViewBag.AllOrders = AllOrders;
+                ViewBag.CurrentUser = CurrentUser;
+                return View("Orders");
+            }
         }
 
         [HttpGet("logout")]
