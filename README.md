@@ -8,7 +8,7 @@ This application was built with Microsoft ASP.Net Core and MySQL.
 
 # What I Learned
 
--Using Entity Framework to created code-first SQL models
--C# Syntax
+- Using Entity Framework to created code-first SQL models
+- C# Syntax
 - Model relationships and complex MySQL queries
 - Creating custom api for all products
